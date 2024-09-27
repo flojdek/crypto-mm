@@ -1,4 +1,4 @@
-Components:
+IN PROGRESS...
 
-We need last trade price.
+![Diagram](./bybitmm.drawio.png)
 
