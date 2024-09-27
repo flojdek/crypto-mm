@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "src/utils/spsc_queue_v1.h"
+#include "src/spsc_queue/spsc_queue_v1.h"
 
 int main()
 {
