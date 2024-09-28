@@ -3,15 +3,14 @@
 
 #include <vector>
 
+/*
+ * This is like the bare-bones version 1. Pretty raw/crude. No safety nets...
+ */
 namespace utils {
   template <typename T>
-  // Version 1 for now, this one has some issues.
-  // Reference: https://www.boost.org/doc/libs/1_60_0/boost/lockfree/spsc_queue.hpp
   class SpscQueueV1 final {
   public:
-    explicit SpscQueueV1(std::size_t maxElems) {
-      store_(maxElems, T());
-    }
+    explicit SpscQueueV1(std::size_t maxElems) : store_(maxElems, T()) {}
 
     SpscQueueV1() = delete;
     SpscQueueV1(const SpscQueueV1 &) = delete;
@@ -24,7 +23,8 @@ namespace utils {
     }
 
     auto updateWriteIdx() noexcept {
-      nextWriteIdx_ = (nextWriteIdx_ + 1) % store_.size();
+      const auto currentWriteIdx = nextWriteIdx_.load();
+      nextWriteIdx_.store((currentWriteIdx + 1) % store_.size());
       ++numElems_;
     }
 
@@ -33,7 +33,8 @@ namespace utils {
     }
 
     auto updateReadIndex() noexcept {
-      nextReadIdx_ = (nextReadIdx_ + 1) % store_.size();
+      const auto currentReadIdx = nextReadIdx_.load();
+      nextReadIdx_.store((currentReadIdx + 1) % store_.size());
       --numElems_;
     }
 
