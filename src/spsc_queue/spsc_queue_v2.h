@@ -2,17 +2,11 @@
 #define SPSC_QUEUE_V2_H
 
 #include <vector>
-#include <new>
 
+/*
+ * Better API. Will not overwrite and have out-of-order reads.
+ */
 namespace utils {
-  constexpr size_t CacheLineSize = 128;
-
-  template<typename T>
-  struct alignas(CacheLineSize) PaddedAtomic {
-    std::atomic<T> atomic;
-    char padding[CacheLineSize - sizeof(std::atomic<T>)]; // Padding to ensure no false sharing
-  };
-
   template <typename T>
   class SpscQueueV2 final {
   public:
@@ -25,24 +19,24 @@ namespace utils {
     SpscQueueV2 &operator=(const SpscQueueV2 &&) = delete;
 
     auto push(const T& elem) noexcept {
-      const auto idx = nextWriteIdx_.atomic.load();
+      const auto idx = nextWriteIdx_.load();
       const auto next_idx = increment(idx);
-      if (next_idx != nextReadIdx_.atomic.load()) {
+      if (next_idx != nextReadIdx_.load()) {
         store_[idx] = elem;
-        nextWriteIdx_.atomic.store(next_idx);
+        nextWriteIdx_.store(next_idx);
         return true;
       }
       return false;
     }
 
     auto pop(T& elem) noexcept {
-      const auto idx = nextReadIdx_.atomic.load();
-      if (idx == nextWriteIdx_.atomic.load()) {
+      const auto idx = nextReadIdx_.load();
+      if (idx == nextWriteIdx_.load()) {
         return false;
       }
       elem = store_[idx];
       const auto next_idx = increment(idx);
-      nextReadIdx_.atomic.store(next_idx);
+      nextReadIdx_.store(next_idx);
       return true;
     }
 
@@ -52,8 +46,8 @@ namespace utils {
     }
   private:
     std::vector<T> store_;
-    PaddedAtomic<size_t> nextWriteIdx_{0};
-    PaddedAtomic<size_t> nextReadIdx_{0};
+    std::atomic<size_t> nextWriteIdx_{0};
+    std::atomic<size_t> nextReadIdx_{0};
   };
 }
 

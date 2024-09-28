@@ -6,6 +6,10 @@
 
 #include "src/spsc_queue/spsc_queue_v1.h"
 #include "src/spsc_queue/spsc_queue_v2.h"
+#include "src/spsc_queue/spsc_queue_v3.h"
+#include "src/spsc_queue/spsc_queue_v4.h"
+
+#include <boost/lockfree/spsc_queue.hpp>
 
 using namespace std::literals::chrono_literals;
 
@@ -16,11 +20,14 @@ struct X {
   int x;
 };
 
+template <typename T>
+using QueueT = utils::SpscQueueV4<T>;
+
 const int F = 10;
 const int N = 100000;
 const int M = F * N;
 
-auto consumeFunction(utils::SpscQueueV2<X>& lfq) {
+auto consumeFunction(QueueT<X>& lfq) {
 
   latch.arrive_and_wait();
 
@@ -41,7 +48,7 @@ auto consumeFunction(utils::SpscQueueV2<X>& lfq) {
 
 int main()
 {
-  utils::SpscQueueV2<X> lfq(N);
+  QueueT<X> lfq(N);
 
   std::thread t{[&lfq] { consumeFunction(lfq); }};
 

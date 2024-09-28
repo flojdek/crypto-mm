@@ -4,7 +4,8 @@
 #include <vector>
 
 /*
- * This is like the bare-bones version 1. Pretty raw/crude. No safety nets...
+ * This is like the bare-bones version 1. Pretty raw/crude. No safety nets.
+ * Can overwrite items and have out-of-order reads. Shitty API.
  */
 namespace utils {
   template <typename T>
