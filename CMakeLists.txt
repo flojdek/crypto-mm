@@ -13,4 +13,4 @@ add_executable(bybitmm main.cpp
         src/client/ws_execution_client.h
         src/client/ws_order_entry_client.h
         src/spsc_queue/spsc_queue_v1.h
-        src/spsc_queue/spsc_padded_queue.h)
+        src/spsc_queue/spsc_queue_v2.h)

@@ -43,10 +43,10 @@ namespace utils {
     }
   private:
     std::vector<T> store_;
-    std::atomic<size_t> nextWriteIdx_ = {0};
-    std::atomic<size_t> nextReadIdx_ = {0};
-    std::atomic<size_t> numElems_ = {0};
+    std::atomic<size_t> nextWriteIdx_{0};
+    std::atomic<size_t> nextReadIdx_{0};
+    std::atomic<size_t> numElems_{0};
   };
 }
 
-#endif //SPSC__QUEUE_H
+#endif
