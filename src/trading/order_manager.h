@@ -1,7 +1,7 @@
 #ifndef ORDER_MANAGER_H
 #define ORDER_MANAGER_H
 
-namespace strategy {
+namespace trading {
 
   class OrderManager {
     /*

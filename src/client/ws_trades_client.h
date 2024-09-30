@@ -1,8 +1,7 @@
-//
-// Created by Tomasz Kupczyk on 27/9/24.
-//
+#pragma once
 
-#ifndef WS_TRADES_CLIENT_H
-#define WS_TRADES_CLIENT_H
+namespace client {
+  struct WsTradesMsg {
 
-#endif //WS_TRADES_CLIENT_H
+  };
+}

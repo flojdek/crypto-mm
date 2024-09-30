@@ -1,4 +1,4 @@
 IN PROGRESS...
 
-![Diagram](./bybitmm.drawio.png)
+![Diagram](./crypto-mm.drawio.png)
 

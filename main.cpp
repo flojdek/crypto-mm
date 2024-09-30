@@ -4,10 +4,7 @@
 #include <chrono>
 #include <mutex>
 
-#include "src/spsc_queue/spsc_queue_v1.h"
-#include "src/spsc_queue/spsc_queue_v2.h"
-#include "src/spsc_queue/spsc_queue_v3.h"
-#include "src/spsc_queue/spsc_queue_v4.h"
+#include "src/util/spsc_queue.h"
 
 #include <boost/lockfree/spsc_queue.hpp>
 
@@ -21,7 +18,7 @@ struct X {
 };
 
 template <typename T>
-using QueueT = utils::SpscQueueV4<T>;
+using QueueT = util::SpscQueue<T>;
 
 const int F = 10;
 const int N = 100000;

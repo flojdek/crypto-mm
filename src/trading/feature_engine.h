@@ -1,7 +1,7 @@
 #ifndef FEATURE_ENGINE_H
 #define FEATURE_ENGINE_H
 
-namespace strategy {
+namespace trading {
 
   class FeatureEngine {
     /*

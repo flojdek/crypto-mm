@@ -1,8 +1,9 @@
-//
-// Created by Tomasz Kupczyk on 27/9/24.
-//
+#pragma once
 
-#ifndef WS_ORDER_ENTRY_CLIENT_H
-#define WS_ORDER_ENTRY_CLIENT_H
+namespace client {
+  struct WsOrderEntryReqMsg {
 
-#endif //WS_ORDER_ENTRY_CLIENT_H
+  };
+  struct WsOrderEntryResMsg {
+  };
+}

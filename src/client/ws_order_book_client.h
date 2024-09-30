@@ -1,8 +1,7 @@
-//
-// Created by Tomasz Kupczyk on 27/9/24.
-//
+#pragma once
 
-#ifndef WS_ORDERBOOK_CLIENT_H
-#define WS_ORDERBOOK_CLIENT_H
+namespace client {
+  struct WsOrderBookMsg {
 
-#endif //WS_ORDERBOOK_CLIENT_H
+  };
+}
