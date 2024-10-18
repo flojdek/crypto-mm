@@ -8,6 +8,8 @@
 
 #include <boost/lockfree/spsc_queue.hpp>
 
+#include "src/client/ws_order_book_client.h"
+
 using namespace std::literals::chrono_literals;
 
 std::latch latch(2);
@@ -45,27 +47,20 @@ auto consumeFunction(QueueT<X>& lfq) {
 
 int main()
 {
-  QueueT<X> lfq(N);
+  WsOrderBookClient ws_ob_client("wss://api.gemini.com/v2/marketdata");
+  ws_ob_client.set_update_callback([](double best_bid_px, double best_bid_qty, double best_ask_px, double best_ask_qty) {
+    /*
+    std::cout << "Ask: " << best_ask_px << " " << best_ask_qty << std::endl;
+    std::cout << "---- " << 10000.0 * (best_ask_px - best_bid_px)/best_bid_px << " ----" << std::endl;
+    std::cout << "Bid: " << best_bid_px << " " << best_bid_qty << std::endl;
+    std::cout << std::endl;
+    */
+  });
+  ws_ob_client.start();
 
-  std::thread t{[&lfq] { consumeFunction(lfq); }};
-
-  latch.arrive_and_wait();
-
-  auto start = std::chrono::high_resolution_clock::now();
-  int i = 0;
-  while (i < M) {
-    while (!lfq.push(X{i}));
-    i++;
+  while (true) {
+    std::this_thread::sleep_for(1s);
   }
-  auto end = std::chrono::high_resolution_clock::now();   // End time
-  std::chrono::duration<double, std::micro> duration = end - start; // Measure time in microseconds
-
-  cout_mutex.lock();
-  std::cout << "pubished " << M << " items, duration [micros] = " << duration.count() << ", tps="
-    << (double)M/(duration.count() / 1000000) << std::endl;
-  cout_mutex.unlock();
-
-  std::this_thread::sleep_for(1s);
 
   return 0;
 }

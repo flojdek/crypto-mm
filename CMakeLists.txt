@@ -4,6 +4,8 @@ project(crypto_mm)
 set(CMAKE_CXX_STANDARD 20)
 
 find_package(Boost)
+find_package(nlohmann_json)
+find_package(OpenSSL)
 
 add_executable(crypto_mm main.cpp
         src/trading/feature_engine.h
@@ -18,4 +20,4 @@ add_executable(crypto_mm main.cpp
         src/util/padded_value.h
         src/trading/trading_engine.h)
 
-target_link_libraries(crypto_mm boost::boost)
+target_link_libraries(crypto_mm boost::boost nlohmann_json::nlohmann_json openssl::openssl)

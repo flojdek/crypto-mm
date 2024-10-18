@@ -12,6 +12,9 @@ class ConanApplication(ConanFile):
     def layout(self):
         cmake_layout(self)
 
+    def config_options(self):
+        self.options["ixwebsocket"].tls = "applessl"
+
     def generate(self):
         tc = CMakeToolchain(self)
         tc.user_presets_path = False
