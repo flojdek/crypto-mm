@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 find_package(Boost)
 find_package(nlohmann_json)
 find_package(OpenSSL)
+find_package(GTest)
 
 add_executable(crypto_mm main.cpp
         src/trading/feature_engine.h
@@ -18,6 +19,8 @@ add_executable(crypto_mm main.cpp
         src/client/ws_order_entry_client.h
         src/util/spsc_queue.h
         src/util/padded_value.h
-        src/trading/trading_engine.h)
+        src/trading/trading_engine.h
+        src/test/unit/feature_engine_ut.cpp
+        src/test/unit/trading_engine_ut.cpp)
 
-target_link_libraries(crypto_mm boost::boost nlohmann_json::nlohmann_json openssl::openssl)
+target_link_libraries(crypto_mm boost::boost nlohmann_json::nlohmann_json openssl::openssl gtest::gtest)
